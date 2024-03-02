@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
