@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CategoriesService } from '../services/category.service';
-import { CreateCategoryDto, UpdateCategoryDto } from './../dtos/category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
 
 @Controller('categories')
 export class CategoriesController {
