@@ -1,22 +1,32 @@
 import { Module } from '@nestjs/common';
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductsController } from './products/controllers/products.controller';
-import { CategoriesController } from './products/controllers/categories.controller';
-import { ProductsService } from './products/services/products.service';
-import { BrandsController } from './products/controllers/brands.controller';
-import { CustomerController } from './users/controller/customer.controller';
-import { UsersController } from './users/controller/user.controller';
-import { CategoriesService } from './products/services/category.service';
-import { UsersService } from './users/services/user.service';
-import { BrandsService } from './products/services/brand.service';
-import { CustomersService } from './users/services/customer.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 
+const API_KEY = '12345634';
+const API_KEY_PROD = 'PROD';
+
 @Module({
-  imports: [UsersModule, ProductsModule],
+  imports: [UsersModule, ProductsModule, HttpModule],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [
+    AppService,
+    {
+      provide: 'API_KEY',
+      useValue: process.env.API_KEY === 'prod' ? API_KEY_PROD : API_KEY
+    },
+    {
+      provide: 'HTTP_INSTANCE',
+      useFactory: async (http: HttpService) => {
+        const request = http.get('https://jsonplaceholder.typicode.com/todos');
+        const tasks = await lastValueFrom(request);
+        return tasks.data;
+      },
+      inject: [HttpService]
+    }
+  ]
 })
 export class AppModule {}
