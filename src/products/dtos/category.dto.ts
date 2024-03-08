@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
+import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class CreateCategoryDto {
   @IsString()
