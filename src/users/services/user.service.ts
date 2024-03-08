@@ -4,10 +4,14 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Order } from '../entities/order.entity';
 import { ProductsService } from 'src/products/services/products.service';
+import { ConfigService, ConfigModule } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
-  constructor(private productService: ProductsService) {}
+  constructor(
+    private productService: ProductsService,
+    private configService: ConfigService
+  ) {}
 
   private counterId = 1;
   private users: User[] = [
@@ -15,8 +19,8 @@ export class UsersService {
       id: 1,
       email: 'correo@mail.com',
       password: '12345',
-      role: 'admin',
-    },
+      role: 'admin'
+    }
   ];
 
   findAll() {
@@ -35,7 +39,7 @@ export class UsersService {
     this.counterId = this.counterId + 1;
     const newUser = {
       id: this.counterId,
-      ...data,
+      ...data
     };
     this.users.push(newUser);
     return newUser;
@@ -46,7 +50,7 @@ export class UsersService {
     const index = this.users.findIndex((item) => item.id === id);
     this.users[index] = {
       ...user,
-      ...changes,
+      ...changes
     };
     return this.users[index];
   }
@@ -65,7 +69,7 @@ export class UsersService {
     return {
       date: new Date(),
       user,
-      product: this.productService.findAll(),
+      product: this.productService.findAll()
     };
   }
 }
