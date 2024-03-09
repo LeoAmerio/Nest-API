@@ -12,7 +12,7 @@ export class AppService {
   getHello(): string {
     // console.log(this.tasks);
     const apiKey = this.configService.apiKey;
-    const BD = this.configService.database.host;
+    const BD = this.configService.database.name;
     return `Hello World! ${apiKey} ${BD}`;
   }
 }
